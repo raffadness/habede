@@ -115,10 +115,7 @@ export default function Ucapan() {
               {/* Message */}
               <div className="rounded-xl border-l-4 border-pink-300 bg-gradient-to-r from-pink-50 to-purple-50 p-4">
                 <p className="leading-relaxed text-gray-700 italic">
-                  "Selamat ulang tahun adek ku cantik, Semua doa yg terbaik ,
-                  semoga harapan harapan yg belum terlaksa dimudahkan jalan nya
-                  ya , Tetep jadi orang baik , sayang keluarga , dan rendah hati
-                  , maaf kalo belum bisa jdi kakak yg baik,"
+                  "Lagi bijalan"
                 </p>
               </div>
 

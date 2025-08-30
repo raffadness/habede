@@ -1,14 +1,28 @@
 import ucapanData from "../data/ucapan.js";
-import maspras from "../assets/maspras.jpg";
-import mbaindi from "../assets/mbaindi.jpg";
-import masbedu from "../assets/masbedu.jpg";
 import pras from "../assets/maspras.png";
 import indi from "../assets/mbaindi.png";
 import bedu from "../assets/masbedu.png";
+import maspras from "../assets/maspras.jpg";
+import mbaindi from "../assets/mbaindi.jpg";
+import masbedu from "../assets/masbedu.jpg";
 import cilananaio from "../assets/cilananaio.jpg";
+import { useState } from "react";
 
 export default function Ucapan() {
   const greetings = ucapanData();
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const photos = [
+    { id: 1, src: maspras, alt: "Pras" },
+    { id: 2, src: mbaindi, alt: "Indi" },
+    { id: 3, src: masbedu, alt: "Bedu" },
+    { id: 4, src: cilananaio, alt: "Cila, Nana, & Io" },
+  ];
+  const openModal = (photo) => {
+    setSelectedPhoto(photo);
+  };
+  const closeModal = () => {
+    setSelectedPhoto(null);
+  };
 
   return (
     <div className="min-h-screen px-4 py-12">
@@ -212,15 +226,64 @@ export default function Ucapan() {
           <p className="mb-4 text-center text-2xl">
             Mas Pras : "Semoga menyusul ya dek"
           </p>
-          <img src={maspras} alt="Pras" className="rounded-2xl" />
-          <img src={mbaindi} alt="Indi" className="rounded-2xl" />
-          <img src={masbedu} alt="Bedu" className="rounded-2xl" />
-          <img
-            src={cilananaio}
-            alt="Cila, Nana, & Io"
-            className="rounded-2xl"
-          />
+          <div className="columns-1 gap-4 sm:columns-2 md:columns-3 lg:columns-4">
+            {photos.map((photo) => (
+              <div
+                key={photo.id}
+                className="mb-4 break-inside-avoid overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
+              >
+                <div
+                  className="group relative cursor-pointer"
+                  onClick={() => openModal(photo)}
+                >
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    className="h-auto w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/40">
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <div className="text-center text-white">
+                        <div className="mb-2 text-2xl">📸</div>
+                        <p className="text-sm font-medium">Click to view</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+        {selectedPhoto && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+            onClick={closeModal}
+          >
+            <div className="relative max-h-full max-w-full">
+              <img
+                src={selectedPhoto.src}
+                alt={selectedPhoto.alt}
+                className="max-h-[90vh] max-w-full rounded-lg object-contain"
+              />
+
+              {/* Close button */}
+              <button
+                onClick={closeModal}
+                className="absolute -top-4 -right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white text-gray-800 shadow-lg transition-all duration-200 hover:bg-gray-100"
+              >
+                <span className="text-xl">×</span>
+              </button>
+
+              {/* Photo info */}
+              <div className="absolute bottom-4 left-4 rounded-lg bg-black/70 px-4 py-2 text-white">
+                <p className="text-sm font-medium">{selectedPhoto.alt}</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
